@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coleen</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --border: #e8e8e8;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --radius: 12px;
+      --max-w: 680px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #111113;
+      --surface: #1c1c1f;
+      --border: #2e2e32;
+      --text: #f0f0f0;
+      --muted: #8b8b99;
+      --accent: #4f8eff;
+      --accent-light: #1a2540;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1.25rem;
+      min-height: 100vh;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s, color 0.15s, background 0.2s;
+      z-index: 100;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .theme-toggle svg { display: block; }
+    .icon-sun  { display: none; }
+    .icon-moon { display: block; }
+    [data-theme="dark"] .icon-sun  { display: block; }
+    [data-theme="dark"] .icon-moon { display: none; }
+
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 2.5rem 0 2rem;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      letter-spacing: -1px;
+    }
+
+    .hero-text h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    .hero-text .tagline {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .social-links a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── Divider ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0.5rem 0 2rem;
+    }
+
+    /* ── Section ── */
+    section { margin-bottom: 2.5rem; }
+
+    section h2 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .bio p {
+      font-size: 1rem;
+      color: var(--text);
+      max-width: 56ch;
+    }
+
+    /* ── Projects ── */
+    .projects-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .project-card .proj-info h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .project-card .proj-info p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .project-card .proj-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 0.15rem 0.55rem;
+      border-radius: 99px;
+      white-space: nowrap;
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Contact Form ── */
+    .contact-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      resize: none;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .form-group textarea { height: 110px; }
+
+    .submit-btn {
+      align-self: flex-start;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .submit-btn:hover { opacity: 0.87; }
+    .submit-btn:active { opacity: 0.75; }
+
+    .form-success {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #16a34a;
+      font-weight: 500;
+    }
+
+    .form-success.visible { display: flex; }
+
+    /* ── Footer ── */
+    footer {
+      padding: 1.5rem 0 0.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      .hero { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <!-- sun (shown in dark mode) -->
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <!-- moon (shown in light mode) -->
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="avatar">C</div>
+      <div class="hero-text">
+        <h1>Coleen</h1>
+        <p class="tagline">Developer &middot; Builder &middot; Curious mind</p>
+        <div class="social-links">
+          <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+          <a href="mailto:hello@example.com">Email</a>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Bio -->
+    <section class="bio">
+      <h2>About</h2>
+      <p>
+        Hi, I'm Coleen. I build things for the web and love exploring the
+        intersection of design and engineering. When I'm not coding, you'll
+        find me reading, hiking, or experimenting with new tools.
+      </p>
+    </section>
+
+    <!-- Projects -->
+    <section>
+      <h2>Projects</h2>
+      <div class="projects-grid">
+
+        <a class="project-card" href="#" target="_blank" rel="noopener">
+          <div class="proj-info">
+            <h3>Project Alpha</h3>
+            <p>A fast, minimal tool for managing local dev environments.</p>
+          </div>
+          <span class="proj-tag">Open Source</span>
+        </a>
+
+        <a class="project-card" href="#" target="_blank" rel="noopener">
+          <div class="proj-info">
+            <h3>Notepad Zero</h3>
+            <p>Distraction-free writing app built with plain web technologies.</p>
+          </div>
+          <span class="proj-tag">App</span>
+        </a>
+
+        <a class="project-card" href="#" target="_blank" rel="noopener">
+          <div class="proj-info">
+            <h3>CLI Toolkit</h3>
+            <p>A collection of shell utilities I use daily, packaged neatly.</p>
+          </div>
+          <span class="proj-tag">CLI</span>
+        </a>
+
+        <a class="project-card" href="#" target="_blank" rel="noopener">
+          <div class="proj-info">
+            <h3>Design System Starter</h3>
+            <p>Zero-dependency component primitives for rapid UI prototyping.</p>
+          </div>
+          <span class="proj-tag">Library</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section>
+      <h2>Contact</h2>
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="What's on your mind?" required></textarea>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+          <button type="submit" class="submit-btn">Send message</button>
+          <span class="form-success" id="formSuccess">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="7.5" stroke="#16a34a"/>
+              <path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Message sent!
+          </span>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      &copy; 2026 Coleen &middot; Built with HTML &amp; CSS
+    </footer>
+
+  </main>
+
+  <script>
+    // ── Dark mode ──
+    const toggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+
+    // Restore saved preference
+    if (localStorage.getItem('theme') === 'dark') {
+      root.setAttribute('data-theme', 'dark');
+    }
+
+    toggle.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    });
+
+    // ── Contact form ──
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !message) return;
+
+      // Replace this block with your actual form submission logic
+      // e.g., fetch('/api/contact', { method: 'POST', body: ... })
+      const success = document.getElementById('formSuccess');
+      success.classList.add('visible');
+      this.reset();
+      setTimeout(() => success.classList.remove('visible'), 4000);
+    });
+  </script>
+</body>
+</html>
