@@ -200,9 +200,50 @@ footer a{color:var(--gold);text-decoration:none}
 footer a:hover{text-decoration:underline}
 .disclaimer{max-width:56ch;margin:10px auto 0}
 
+/* ---------- income type + dependents ---------- */
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{
+  flex:1;min-width:120px;border:1px solid var(--line);background:var(--night-3);color:var(--ink-dim);
+  font-family:inherit;font-weight:600;font-size:14px;padding:11px 10px;border-radius:10px;cursor:pointer;
+}
+.seg button[aria-pressed=true]{background:rgba(212,169,55,.16);border-color:var(--gold);color:var(--gold-soft)}
+.seg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.stepper{display:flex;gap:8px;max-width:200px}
+.stepper button{
+  width:48px;flex-shrink:0;border:1px solid var(--line);background:var(--night-3);color:var(--gold);
+  font-size:22px;font-weight:700;border-radius:10px;cursor:pointer;font-family:inherit;
+}
+.stepper input{padding-left:14px;text-align:center}
+.row .what{font-size:12.5px;color:var(--ink-dim)}
+.peso{font-size:12px;color:var(--ink-dim);margin-top:2px}
+
+/* ---------- lab result: residency ---------- */
+.lab{border:1px solid var(--line);border-radius:10px;padding:16px;margin:4px 0 20px;background:var(--night-3)}
+.lab .lab-tag{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+.lab .lab-title{font-weight:700;font-size:17px;margin:4px 0 6px}
+.lab .lab-title.pass{color:var(--seaglass)}
+.lab .lab-title.flag{color:var(--gold-soft)}
+.lab .lab-title.no{color:var(--coral)}
+.lab p{font-size:14.5px;margin-bottom:8px;color:var(--ink)}
+.lab .lab-fine{font-size:12.5px;color:var(--ink-dim);margin:0}
+
+.tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+
 @media (max-width:480px){
   .vitals{grid-template-columns:1fr}
   .row{grid-template-columns:1fr 96px}
+}
+
+/* ---------- print my chart ---------- */
+@media print{
+  body{background:#fff;color:#111}
+  header .lede,section[aria-labelledby],.go,.fineprint,.mailbox,.cta,.tools,footer p:not(.disclaimer){display:none!important}
+  #results{display:block!important}
+  .chart,.vital,.lab{background:#fff!important;border:1px solid #999!important}
+  .chart-head{background:#eee!important;color:#111!important}
+  .vital .v-label,.runway-sub,.peso,.lab .lab-fine,.lab .lab-tag{color:#444!important}
+  .runway-num,.vital .v-num,.plan h3,.plan li,.plan p,.lab p{color:#111!important}
+  .bar{border:1px solid #999}
 }
 </style>
 </head>
@@ -211,7 +252,7 @@ footer a:hover{text-decoration:underline}
 <header class="wrap">
   <div class="brand">Burnout to Bliss Abroad</div>
   <h1>DR Budget Tracker 2026</h1>
-  <p class="updated">Updated July 2026.</p>
+  <p class="updated">Updated October 2026.</p>
   <p class="lede">I am Coleen, a nurse of 30 years who made the move. Plug in your real numbers below and get a real answer. <strong>Free. No email required.</strong></p>
 </header>
 
@@ -238,6 +279,24 @@ footer a:hover{text-decoration:underline}
         <span class="sub">Credit cards, personal loans. Carrying US interest abroad is swimming with rocks in your backpack.</span>
         <div class="money"><span>$</span><input type="number" id="debt" inputmode="decimal" min="0" placeholder="0"></div>
       </div>
+      <div class="field">
+        <label id="srcLbl">Where does your monthly income come from?</label>
+        <span class="sub">This decides which residency visa you can get. I will check it for you.</span>
+        <div class="seg" id="incomeType" role="group" aria-labelledby="srcLbl">
+          <button type="button" data-v="pension" aria-pressed="true">Pension / Social Security</button>
+          <button type="button" data-v="passive" aria-pressed="false">Rental / Investments</button>
+          <button type="button" data-v="work" aria-pressed="false">Job / Remote work</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="deps">People moving with you</label>
+        <span class="sub">Spouse and kids. Not counting you.</span>
+        <div class="stepper">
+          <button type="button" data-dep="-1" aria-label="One fewer person">&minus;</button>
+          <input type="number" id="deps" inputmode="numeric" min="0" value="0">
+          <button type="button" data-dep="1" aria-label="One more person">+</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -255,6 +314,20 @@ footer a:hover{text-decoration:underline}
     </div>
   </section>
 
+  <!-- STEP 3 -->
+  <section aria-labelledby="s3">
+    <span class="step-tag">Step 3</span>
+    <h2 id="s3">The cost of getting there</h2>
+    <p class="hint">Everybody budgets the beach life and forgets the move itself. These come out of your savings before your first sunset.</p>
+    <div class="card">
+      <div class="toolbar">
+        <button type="button" class="chip" id="fillMoveBtn">Fill with my suggested amounts</button>
+        <button type="button" class="chip" id="clearMoveBtn">Clear all to zero</button>
+      </div>
+      <div id="moveRows"></div>
+    </div>
+  </section>
+
   <button class="go" id="runBtn" type="button">Run my numbers</button>
   <p class="fineprint">Takes two seconds. Changes everything.</p>
 
@@ -265,10 +338,10 @@ footer a:hover{text-decoration:underline}
       <div class="chart-body">
 
         <div class="vitals">
-          <div class="vital"><div class="v-label">DR monthly total</div><div class="v-num" id="drTotal">$0</div></div>
+          <div class="vital"><div class="v-label">DR monthly total</div><div class="v-num" id="drTotal">$0</div><div class="peso" id="drPeso"></div></div>
           <div class="vital"><div class="v-label">Same life in the US</div><div class="v-num" id="usTotal">$0</div></div>
           <div class="vital"><div class="v-label">You keep every month</div><div class="v-num save" id="monthlySave">$0</div></div>
-          <div class="vital"><div class="v-label">Savings after debt</div><div class="v-num" id="netSavings">$0</div></div>
+          <div class="vital"><div class="v-label">Savings after debt and move</div><div class="v-num" id="netSavings">$0</div><div class="peso" id="moveNote"></div></div>
         </div>
 
         <div class="runway-label">Your runway</div>
@@ -280,8 +353,14 @@ footer a:hover{text-decoration:underline}
           <h3>Discharge Plan</h3>
           <div class="assess" id="assessLine">Assessment</div>
           <div id="planBody"></div>
+          <div class="lab" id="labBox"></div>
           <a class="cta" href="https://btb-starter-kit.netlify.app/" target="_blank" rel="noopener">Get the free DR Relocation Starter Kit</a>
+          <a class="cta ghost" href="https://calendly.com/jarlee123/30-minute-clarity-call" target="_blank" rel="noopener">Book a free clarity call with me</a>
           <button class="cta ghost" id="shareBtn" type="button">Send this tool to a coworker who needs it</button>
+          <div class="tools">
+            <button class="chip" id="printBtn" type="button">Print or save my chart</button>
+            <button class="chip" id="resetBtn" type="button">Start over</button>
+          </div>
         </div>
 
         <!-- email capture: optional, never blocks -->
@@ -328,58 +407,138 @@ const CATS = [
   ["Everything else", 100, 250]
 ];
 
-const rowsEl = document.getElementById("rows");
-CATS.forEach((c, i) => {
+// ---------- one-time move costs: [name, suggested, what it covers] ----------
+const MOVE = [
+  ["Flights and extra bags", 600, "One way, plus the bags you will absolutely overpack."],
+  ["Rent deposit and first month", 2970, "Most landlords want 2 months deposit plus the first month."],
+  ["Setting up your home", 1500, "Basics, kitchen stuff, and an inverter for power cuts."],
+  ["Residency and lawyer", 2000, "Rough estimate. Every case is different. Skip it for a sabbatical."]
+];
+
+// 2026 Law 171-07 income lines, USD per month
+const VISA = { pensionado: 1500, rentista: 2000, perDep: 250 };
+const STORE_KEY = "btb-dr-tracker-v3";
+const FALLBACK_RATE = 58;
+let rate = FALLBACK_RATE, incomeType = "pension";
+
+const $ = id => document.getElementById(id);
+const money = n => "$" + Math.round(n).toLocaleString();
+const val = el => Math.max(0, +(el.value || 0));
+let lastSummary = "";
+
+const buildRows = (el, list, cls, sub) => list.forEach((c, i) => {
   const row = document.createElement("div");
   row.className = "row";
   row.innerHTML = `
     <div>
       <div class="name">${c[0]}</div>
-      <div class="us">Typical US: <s>$${c[2].toLocaleString()}</s></div>
+      ${sub(c)}
     </div>
     <div class="money"><span>$</span>
-      <input type="number" inputmode="decimal" min="0" class="cat" data-i="${i}" placeholder="${c[1]}" aria-label="${c[0]} monthly cost in the DR">
+      <input type="number" inputmode="decimal" min="0" class="${cls}" data-i="${i}" placeholder="${c[1]}" aria-label="${c[0]} in US dollars">
     </div>`;
-  rowsEl.appendChild(row);
+  el.appendChild(row);
+});
+buildRows($("rows"), CATS, "cat", c => `<div class="us">Typical US: <s>$${c[2].toLocaleString()}</s></div>`);
+buildRows($("moveRows"), MOVE, "mv", c => `<div class="what">${c[2]}</div>`);
+
+const fill = (cls, list) => document.querySelectorAll("." + cls).forEach(inp => inp.value = list[+inp.dataset.i][1]);
+const clear = cls => document.querySelectorAll("." + cls).forEach(inp => inp.value = 0);
+$("fillBtn").onclick = () => { fill("cat", CATS); save(); };
+$("clearBtn").onclick = () => { clear("cat"); save(); };
+$("fillMoveBtn").onclick = () => { fill("mv", MOVE); save(); };
+$("clearMoveBtn").onclick = () => { clear("mv"); save(); };
+
+// ---------- income type + dependents ----------
+const setType = v => {
+  incomeType = v;
+  document.querySelectorAll("#incomeType button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === v));
+};
+$("incomeType").onclick = e => { const b = e.target.closest("button"); if (b) { setType(b.dataset.v); save(); } };
+document.querySelectorAll("[data-dep]").forEach(b => b.onclick = () => {
+  $("deps").value = Math.max(0, val($("deps")) + +b.dataset.dep); save();
 });
 
-document.getElementById("fillBtn").onclick = () => {
-  document.querySelectorAll(".cat").forEach(inp => inp.value = CATS[+inp.dataset.i][1]);
+// ---------- remember their numbers on this device ----------
+const save = (ran) => {
+  try {
+    const prev = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      savings: $("savings").value, income: $("income").value, debt: $("debt").value, deps: $("deps").value, incomeType,
+      cats: [...document.querySelectorAll(".cat")].map(i => i.value),
+      mv: [...document.querySelectorAll(".mv")].map(i => i.value),
+      ran: ran ?? prev.ran ?? false
+    }));
+  } catch (e) { /* private window or blocked storage: tool still works */ }
 };
-document.getElementById("clearBtn").onclick = () => {
-  document.querySelectorAll(".cat").forEach(inp => inp.value = 0);
+const restore = () => {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+    if (!s) return false;
+    ["savings", "income", "debt", "deps"].forEach(k => { if (s[k] != null) $(k).value = s[k]; });
+    document.querySelectorAll(".cat").forEach((inp, i) => inp.value = (s.cats || [])[i] ?? "");
+    document.querySelectorAll(".mv").forEach((inp, i) => inp.value = (s.mv || [])[i] ?? "");
+    setType(s.incomeType || "pension");
+    return s.ran;
+  } catch (e) { return false; }
+};
+document.querySelector("main").addEventListener("input", e => { if (e.target.matches("input[type=number]")) save(); });
+
+// ---------- today's exchange rate, for the peso line ----------
+fetch("https://open.er-api.com/v6/latest/USD")
+  .then(r => r.json())
+  .then(j => { if (j && j.rates && j.rates.DOP) { rate = j.rates.DOP; if ($("results").style.display === "block") showPeso(); } })
+  .catch(() => {});
+let lastDR = 0;
+const showPeso = () => { $("drPeso").textContent = lastDR > 0 ? `About RD$${Math.round(lastDR * rate).toLocaleString()} at today's rate` : ""; };
+
+// ---------- residency lab result ----------
+const residency = (income) => {
+  const deps = Math.round(val($("deps")));
+  const extra = deps ? ` That is the base amount plus $${VISA.perDep} for each of the ${deps} ${deps === 1 ? "person" : "people"} moving with you.` : "";
+  const fine = `<p class="lab-fine">Based on the 2026 rules under Law 171-07. Rules change, so confirm with a licensed Dominican lawyer before you apply.</p>`;
+  if (income <= 0) return `<div class="lab-tag">Lab result: Residency</div><div class="lab-title flag">No monthly income entered</div>
+    <p>The two easiest residency visas, Pensionado and Rentista, both need steady monthly income from outside the DR. Living on savings alone works for a sabbatical. For a full move, talk to a lawyer about your options.</p>${fine}`;
+  if (incomeType === "work") return `<div class="lab-tag">Lab result: Residency</div><div class="lab-title no">Job income does not count for these visas</div>
+    <p>Pensionado and Rentista need pension or passive income. A paycheck or remote work salary does not qualify, even if it is more than enough to live on. There are other routes. Ask a DR lawyer which one fits you.</p>${fine}`;
+  const isPen = incomeType === "pension";
+  const name = isPen ? "Pensionado" : "Rentista";
+  const need = (isPen ? VISA.pensionado : VISA.rentista) + deps * VISA.perDep;
+  const kind = isPen ? "pension income. Social Security counts." : "passive income, like rent, dividends, or interest.";
+  const pass = income >= need;
+  return `<div class="lab-tag">Lab result: Residency</div>
+    <div class="lab-title ${pass ? "pass" : "flag"}">${pass ? `You meet the ${name} income line` : `You are ${money(need - income)} a month short for ${name}`}</div>
+    <p>The ${name} visa asks for ${money(need)} a month in ${kind}${extra}</p>${fine}`;
 };
 
-const $ = id => document.getElementById(id);
-const money = n => "$" + Math.round(n).toLocaleString();
-let lastSummary = "";
+const run = (scroll) => {
+  const savings = val($("savings"));
+  const income  = val($("income"));
+  const debt    = val($("debt"));
 
-document.getElementById("runBtn").onclick = () => {
-  const savings = +($("savings").value || 0);
-  const income  = +($("income").value || 0);
-  const debt    = +($("debt").value || 0);
-
-  let dr = 0, us = 0;
+  let dr = 0, us = 0, move = 0;
   document.querySelectorAll(".cat").forEach(inp => {
-    const i = +inp.dataset.i;
-    const v = inp.value === "" ? 0 : +inp.value;
-    dr += v;
-    us += CATS[i][2];
+    dr += val(inp);
+    us += CATS[+inp.dataset.i][2];
   });
+  document.querySelectorAll(".mv").forEach(inp => move += val(inp));
 
   if (dr <= 0) {
-    alert("Give me your monthly numbers first. Tap Fill with my suggested amounts if you want a head start.");
+    if (scroll) alert("Give me your monthly numbers first. Tap Fill with my suggested amounts if you want a head start.");
     return;
   }
 
-  const net = savings - debt;
+  const net = savings - debt - move;
   const burn = dr - income;           // what savings must cover monthly
-  const save = us - dr;
+  const keep = us - dr;
 
+  lastDR = dr;
   $("drTotal").textContent = money(dr);
+  showPeso();
   $("usTotal").textContent = money(us);
-  $("monthlySave").textContent = money(Math.max(save, 0));
+  $("monthlySave").textContent = money(Math.max(keep, 0));
   $("netSavings").textContent = money(net);
+  $("moveNote").textContent = move > 0 ? `After ${money(move)} in move costs` : "Move costs not added yet. See Step 3.";
 
   const assess = $("assessLine");
   const plan = $("planBody");
@@ -390,16 +549,26 @@ document.getElementById("runBtn").onclick = () => {
 
   if (net <= 0) {
     runwayNum.textContent = "Not yet";
-    runwaySub.textContent = "Right now your debt eats your savings. That is fixable.";
+    runwaySub.textContent = debt > 0 ? "Right now your debt and move costs eat your savings. That is fixable." : "Right now your move costs eat your savings. That is fixable.";
     assess.textContent = "Assessment: Debt first";
     assess.className = "assess build";
     plan.innerHTML = `
       <p>Your debt is bigger than your savings. Moving now would mean carrying US interest on a beach, and interest does not take vacations.</p>
       <ol>
         <li>Attack the debt before anything else. Every dollar of interest you kill buys back your future runway.</li>
-        <li>Keep dreaming with a date on it. Come back to this tool every 3 months and watch your runway appear.</li>
-        <li>Join my free community below. Planning with people beats panicking alone.</li>
+        <li>Keep dreaming with a date on it. Come back to this tool every 3 months and watch your runway appear. Your numbers stay saved on this device.</li>
+        <li>Grab my free Starter Kit below. Planning with a map beats panicking alone.</li>
       </ol>`;
+    if (debt < savings) {
+      assess.textContent = "Assessment: Build first";
+      plan.innerHTML = `
+        <p>Your savings do not cover the cost of the move yet. That is not a no. That is a not yet.</p>
+        <ol>
+          <li>Start with a short test run instead of a full move. A furnished rental skips the deposit and setup costs.</li>
+          <li>Bank hard for a few months and run these numbers again. Your numbers stay saved on this device.</li>
+          <li>Grab my free Starter Kit below. Planning with a map beats panicking alone.</li>
+        </ol>`;
+    }
     barPct = 4;
   } else if (income >= dr) {
     runwayNum.textContent = "Indefinite";
@@ -419,7 +588,9 @@ document.getElementById("runBtn").onclick = () => {
     const yrs = Math.floor(months / 12);
     const mos = Math.floor(months % 12);
     runwayNum.textContent = (yrs > 0 ? yrs + (yrs === 1 ? " year " : " years ") : "") + mos + (mos === 1 ? " month" : " months");
-    runwaySub.textContent = "That is how long you could live in the DR with zero income, after paying off your debt.";
+    runwaySub.textContent = income > 0
+      ? "That is how long your savings last in the DR, with your income helping, after paying off your debt and the move."
+      : "That is how long you could live in the DR with zero income, after paying off your debt and the move.";
     barPct = Math.min(100, (months / 36) * 100);
 
     if (months >= 24) {
@@ -450,27 +621,50 @@ document.getElementById("runBtn").onclick = () => {
         <ol>
           <li>Set a 12 month building season. Debt down, savings up, and run these numbers again every quarter.</li>
           <li>Start a portable income skill now, before you need it. Remote work you can do from anywhere changes this entire chart.</li>
-          <li>Stay close. My free community below is full of people building their exit exactly like you.</li>
+          <li>Stay close. Grab my free Starter Kit below, and book a clarity call when you want help mapping your build.</li>
         </ol>`;
     }
   }
 
-  lastSummary = `Savings ${money(savings)}, Income/mo ${money(income)}, Debt ${money(debt)}, DR monthly ${money(dr)}, Runway: ${runwayNum.textContent}`;
+  $("labBox").innerHTML = residency(income);
+  const labTitle = $("labBox").querySelector(".lab-title").textContent;
+
+  lastSummary = `Savings ${money(savings)}, Income/mo ${money(income)} (${incomeType}), Debt ${money(debt)}, Move costs ${money(move)}, DR monthly ${money(dr)}, Runway: ${runwayNum.textContent}, Residency: ${labTitle}`;
 
   const res = $("results");
   res.style.display = "block";
-  res.scrollIntoView({behavior:"smooth", block:"start"});
+  if (scroll) res.scrollIntoView({behavior:"smooth", block:"start"});
   requestAnimationFrame(() => { bar.style.width = barPct + "%"; });
+  save(true);
 };
 
-// ---------- optional email capture into existing Netlify form ----------
+$("runBtn").onclick = () => run(true);
+$("printBtn").onclick = () => window.print();
+$("resetBtn").onclick = () => {
+  if (!confirm("Clear all your numbers and start over?")) return;
+  try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+  document.querySelectorAll("main input[type=number]").forEach(i => i.value = "");
+  $("deps").value = 0;
+  setType("pension");
+  $("results").style.display = "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+// ---------- optional email capture: Netlify form + MailerLite Budget Tracker group ----------
 document.getElementById("mailForm").addEventListener("submit", function(e){
   e.preventDefault();
+  const name = $("mName").value, email = $("mEmail").value;
   const data = new URLSearchParams();
   data.append("form-name", "email-capture");
-  data.append("name", $("mName").value);
-  data.append("email", $("mEmail").value);
+  data.append("name", name);
+  data.append("email", email);
   data.append("results", lastSummary || "Ran no numbers, just wants tips");
+  // MailerLite: adds them to the Budget Tracker group so the welcome sequence fires
+  try {
+    const px = new Image();
+    px.src = "https://assets.mailerlite.com/jsonp/2173262/forms/183836887176184985/subscribe?" +
+      new URLSearchParams({ "fields[email]": email, "fields[name]": name, "ml-submit": "1", "anticsrf": "true" }).toString();
+  } catch (err) {}
   fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:data.toString()})
     .then(() => {
       this.style.display = "none";
@@ -496,6 +690,9 @@ document.getElementById("shareBtn").onclick = async () => {
     setTimeout(() => b.textContent = old, 2500);
   }
 };
+
+// welcome back: if they ran their numbers before, show their chart again
+if (restore()) run(false);
 </script>
 </body>
 </html>
