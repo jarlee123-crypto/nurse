@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DR Expat Budget Tracker | Burnout To Bliss Abroad</title>
+<meta name="description" content="Find out exactly what it costs to live in the Dominican Republic. Real numbers from a nurse who actually lives there. Plan your budget, check your visa income, and see how long your savings last.">
+<meta property="og:title" content="DR Expat Budget Tracker | Burnout To Bliss Abroad">
+<meta property="og:description" content="Find out what it ACTUALLY costs to live in the Dominican Republic. Real numbers, not Google guesses.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C1F2C;--deep:#163B4E;--sea:#1A6B5A;
+  --text:#E8E4DA;--muted:rgba(232,228,218,0.6);--faint:rgba(232,228,218,0.35);
+  --green:#5BAD6F;--blue:#4A90D9;--gold:#E8A94A;--red:#E8634A;
+  --line:rgba(232,228,218,0.08);--line-2:rgba(232,228,218,0.15);
+  --card:rgba(0,0,0,0.25);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100vh;background:linear-gradient(165deg,var(--ink) 0%,var(--deep) 40%,var(--sea) 100%);background-color:var(--ink);font-family:'DM Sans','Segoe UI',sans-serif;color:var(--text);line-height:1.4}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+button,input,select{font-family:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235BAD6F' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+select option{background:var(--deep)}
+
+.header{background:rgba(0,0,0,0.3);border-bottom:1px solid rgba(232,228,218,0.1);padding:24px 20px;text-align:center}
+.brand{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--green);margin-bottom:8px;font-weight:600}
+.header h1{font-size:clamp(22px,5vw,32px);font-weight:700;margin:0 0 6px;line-height:1.2}
+.header p{font-size:14px;color:var(--muted)}
+.main{max-width:680px;margin:0 auto;padding:20px 16px 40px}
+
+.section-title{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);font-weight:700;margin:28px 0 6px}
+.section-sub{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.card{background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--line)}
+.lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);display:block;margin-bottom:8px;font-weight:600}
+.sel{width:100%;background:rgba(232,228,218,0.08);border:1px solid var(--line-2);border-radius:8px;padding:10px 28px 10px 8px;color:var(--text);font-size:14px;cursor:pointer}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.btns{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.btn{flex:1;min-width:140px;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.btn:hover{opacity:.85}
+.btn-green{background:rgba(91,173,111,0.15);border:1px solid rgba(91,173,111,0.4);color:var(--green)}
+.btn-blue{background:rgba(74,144,217,0.15);border:1px solid rgba(74,144,217,0.4);color:var(--blue)}
+.btn-dim{background:rgba(232,228,218,0.05);border:1px solid rgba(232,228,218,0.1);color:var(--muted)}
+.btn-red{background:rgba(232,99,74,0.1);border:1px solid rgba(232,99,74,0.25);color:var(--red)}
+.note{font-size:11px;color:var(--faint);text-align:center;margin-bottom:16px}
+
+/* rate */
+.rate-box{background:rgba(0,0,0,0.3);border-radius:12px;padding:14px 16px;border:1px solid var(--line);margin-bottom:16px}
+.rate-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.rate-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px;font-weight:600}
+.rate-input{width:120px;background:rgba(232,228,218,0.08);border:1px solid rgba(232,168,74,0.3);border-radius:8px;padding:8px 10px 8px 40px;color:var(--text);font-size:16px;font-weight:600;outline:none}
+.rate-help{font-size:11px;color:var(--faint);line-height:1.5;max-width:260px}
+.rate-status{color:var(--green);font-weight:600}
+.chip{background:rgba(232,228,218,0.08);border:1px solid var(--line-2);border-radius:6px;padding:6px 10px;color:var(--muted);font-size:10px;cursor:pointer;font-weight:600}
+
+/* categories */
+.cat{background:rgba(0,0,0,0.2);border-radius:12px;border:1px solid rgba(232,228,218,0.06);overflow:hidden;margin-bottom:8px}
+.cat-head{padding:14px 16px}
+.cat-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
+.cat-icon{font-size:18px;width:28px;text-align:center;opacity:.7}
+.cat-label{font-size:14px;font-weight:600}
+.cat-new{font-size:9px;letter-spacing:1px;color:var(--gold);border:1px solid rgba(232,168,74,0.4);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:middle}
+.cat-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.btn-link{background:none;border:none;font-size:10px;cursor:pointer;padding:2px 4px;font-weight:600;letter-spacing:1px}
+.btn-link-blue{color:rgba(74,144,217,0.8)}
+.btn-link-dim{color:rgba(232,228,218,0.45)}
+.cat-inputs{display:flex;align-items:center;gap:8px}
+.input-group{flex:1}
+.input-lbl{font-size:9px;letter-spacing:1.5px;color:var(--green);display:block;margin-bottom:4px;font-weight:600}
+.input-row{display:flex;align-items:center;gap:4px}
+.step-btn{background:rgba(91,173,111,0.15);border:1px solid rgba(91,173,111,0.3);border-radius:8px;width:36px;height:36px;color:var(--green);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1}
+.step-btn:hover{background:rgba(91,173,111,0.25)}
+.input-wrap{position:relative;flex:1}
+.input-sym{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:600;pointer-events:none;color:var(--faint)}
+.num-input{width:100%;border-radius:8px;padding:8px 10px 8px 38px;color:var(--text);font-size:16px;font-weight:600;outline:none;background:rgba(232,228,218,0.06);border:1px solid rgba(232,228,218,0.1)}
+.num-input.filled{background:rgba(91,173,111,0.1);border-color:rgba(91,173,111,0.3)}
+.num-input::placeholder{color:rgba(232,228,218,0.3)}
+.us-col{min-width:75px;text-align:right}
+.us-lbl{font-size:9px;letter-spacing:1.5px;color:var(--faint);display:block;margin-bottom:4px;font-weight:600}
+.us-val{font-size:15px;font-weight:600;color:rgba(232,228,218,0.4);text-decoration:line-through}
+.tip-box{background:rgba(91,173,111,0.08);padding:12px 16px;border-top:1px solid rgba(91,173,111,0.15);font-size:13px;color:rgba(232,228,218,0.75);line-height:1.5}
+.tip-label{color:var(--green);font-weight:600}
+.tip-sug{color:rgba(232,228,218,0.45);font-size:11px}
+
+/* totals */
+.totals{background:rgba(0,0,0,0.35);border-radius:16px;padding:20px;border:1px solid rgba(232,228,218,0.1);margin-bottom:16px}
+.totals-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.tot-lbl{font-size:10px;letter-spacing:2px;color:var(--green);margin-bottom:4px;font-weight:600}
+.tot-val{font-size:clamp(28px,7vw,36px);font-weight:700}
+.us-tot-lbl{font-size:10px;letter-spacing:2px;color:var(--faint);margin-bottom:4px;font-weight:600}
+.us-tot-val{font-size:20px;font-weight:600;color:var(--faint);text-decoration:line-through}
+.save-bar{background:rgba(91,173,111,0.12);border-radius:10px;padding:12px 14px;border:1px solid rgba(91,173,111,0.2);display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.save-lbl{font-size:11px;color:var(--green);font-weight:600;margin-bottom:2px}
+.save-val{font-size:22px;font-weight:700;color:var(--green)}
+.save-pct{background:rgba(91,173,111,0.2);border-radius:20px;padding:6px 14px;font-size:16px;font-weight:700;color:var(--green)}
+.annual{background:rgba(74,144,217,0.1);border-radius:12px;padding:16px;border:1px solid rgba(74,144,217,0.2);margin-bottom:16px;text-align:center}
+.annual-lbl{font-size:11px;letter-spacing:2px;color:var(--blue);margin-bottom:4px;font-weight:600}
+.annual-val{font-size:28px;font-weight:700;color:var(--blue)}
+.annual-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* breakdown bar */
+.mix{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:14px 0 8px;background:rgba(232,228,218,0.08)}
+.mix span{display:block;height:100%}
+.mix-legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11px;color:var(--muted)}
+.mix-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle}
+
+/* reality */
+.reality{background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;margin-bottom:8px}
+.reality-lbl{font-size:10px;letter-spacing:2px;margin-bottom:10px;font-weight:600}
+.reality-level{font-size:22px;font-weight:700;margin-bottom:12px}
+.bar-bg{background:rgba(232,228,218,0.08);border-radius:6px;height:8px;margin-bottom:12px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;transition:width .5s ease}
+.reality-msg{font-size:13px;line-height:1.6;color:rgba(232,228,218,0.75)}
+
+/* plan */
+.field{margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+.plain-input{width:100%;border-radius:8px;padding:10px 12px 10px 38px;color:var(--text);font-size:16px;font-weight:600;outline:none;background:rgba(232,228,218,0.06);border:1px solid rgba(232,228,218,0.12)}
+.result{border-radius:12px;padding:14px 16px;margin-top:10px;border:1px solid}
+.result-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.result-msg{font-size:13px;line-height:1.55;color:rgba(232,228,218,0.75)}
+.ok{background:rgba(91,173,111,0.1);border-color:rgba(91,173,111,0.3)}.ok .result-title{color:var(--green)}
+.warn{background:rgba(232,168,74,0.1);border-color:rgba(232,168,74,0.3)}.warn .result-title{color:var(--gold)}
+.bad{background:rgba(232,99,74,0.1);border-color:rgba(232,99,74,0.3)}.bad .result-title{color:var(--red)}
+.info{background:rgba(74,144,217,0.1);border-color:rgba(74,144,217,0.3)}.info .result-title{color:var(--blue)}
+.fine{font-size:11px;color:var(--faint);margin-top:8px;line-height:1.5}
+.range{width:100%;accent-color:var(--green);margin:6px 0 2px}
+.range-val{font-size:20px;font-weight:700;color:var(--green)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;padding:9px 10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:rgba(232,228,218,0.05);border:1px solid rgba(232,228,218,0.12);color:var(--muted)}
+.seg button[aria-pressed=true]{background:rgba(91,173,111,0.18);border-color:rgba(91,173,111,0.5);color:var(--green)}
+.big-line{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.big-line:first-child{border-top:none}
+.big-line b{font-size:18px}
+
+/* email + cta */
+.capture{background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;border:1px solid rgba(91,173,111,0.25);margin-top:24px}
+.capture h2{font-size:18px;font-weight:700;margin-bottom:6px}
+.capture p{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.capture-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.text-input{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(232,228,218,0.18);border-radius:10px;padding:12px 14px;color:var(--text);font-size:15px;outline:none}
+.text-input::placeholder{color:rgba(232,228,218,0.3)}
+.submit{width:100%;background:var(--green);color:var(--ink);border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer}
+.submit:disabled{opacity:.5;cursor:not-allowed}
+.form-msg{font-size:12px;margin-top:8px;text-align:center;min-height:16px}
+.cta{background:linear-gradient(135deg,rgba(91,173,111,0.15) 0%,rgba(74,144,217,0.15) 100%);border-radius:16px;padding:24px 20px;text-align:center;border:1px solid rgba(91,173,111,0.25);margin-top:16px}
+.cta h2{font-size:18px;font-weight:700;margin-bottom:8px}
+.cta p{font-size:13px;color:rgba(232,228,218,0.7);margin-bottom:16px;line-height:1.5}
+.cta-btn{display:inline-block;background:var(--green);color:var(--ink);padding:14px 32px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:.5px}
+.cta-btn:hover{opacity:.9}
+.cta-alt{display:block;margin-top:12px;font-size:13px;color:var(--text);text-decoration:underline;text-underline-offset:3px}
+.footer{text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid rgba(232,228,218,0.06);font-size:11px;color:rgba(232,228,218,0.35);line-height:1.6}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--green);color:var(--ink);font-weight:700;font-size:13px;padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s;z-index:50}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.hidden{display:none!important}
+.print-only{display:none}
+
+@media (max-width:500px){
+  .grid2,.capture-row{grid-template-columns:1fr}
+  .cat-inputs{flex-wrap:wrap}
+  .us-col{min-width:0;width:100%;text-align:left;display:flex;gap:8px;align-items:baseline}
+  .us-lbl{margin:0}
+}
+
+/* Print / Save as PDF: clean white page */
+@media print{
+  body{background:#fff;color:#111}
+  .header,.rate-box,.btns,.note,.step-btn,.cat-actions,.capture,.cta,.actions,.seg,.range,.toast,.no-print{display:none!important}
+  .print-only{display:block}
+  .main{max-width:none;padding:0}
+  .card,.cat,.totals,.reality,.annual,.result,.save-bar{background:#fff!important;border:1px solid #ccc!important;color:#111;break-inside:avoid}
+  .num-input,.plain-input{background:#fff!important;border:none!important;color:#111;padding-left:30px}
+  .section-title,.lbl,.input-lbl,.tot-lbl,.save-lbl,.save-val,.annual-lbl,.annual-val,.result-title,.reality-lbl,.reality-level{color:#1A6B5A!important}
+  .reality-msg,.result-msg,.annual-sub,.section-sub,.fine,.us-val,.us-tot-val,.input-sym,.footer{color:#444!important}
+  .tip-box{display:none}
+}
+</style>
+<!-- MailerLite Universal -->
+<script>(function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);},l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');ml('account','2173262');</script>
+<!-- End MailerLite Universal -->
+</head>
+<body>
+
+<!-- Hidden form so Netlify detects it at deploy time -->
+<form name="email-capture" data-netlify="true" hidden>
+  <input name="name" type="text">
+  <input name="email" type="email">
+  <input name="budget" type="text">
+</form>
+
+<div class="header">
+  <div class="brand">Burnout To Bliss Abroad</div>
+  <h1>DR Expat Budget Tracker</h1>
+  <p>Real numbers from someone who actually lives here. Not Google guesses.</p>
+</div>
+
+<div class="main" id="app">
+  <div class="print-only" style="margin-bottom:16px">
+    <h1 style="font-size:22px">My DR Budget Plan</h1>
+    <p id="printMeta" style="font-size:12px;color:#444"></p>
+  </div>
+
+  <!-- ── SETUP ───────────────────────────────────────────── -->
+  <div class="rate-box">
+    <div class="rate-inner">
+      <div style="flex:1;min-width:180px">
+        <label class="rate-lbl" for="rateInput">Exchange Rate (1 USD =)</label>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="position:relative;width:120px"><span class="input-sym">RD$</span><input type="number" inputmode="decimal" step="0.1" class="rate-input" id="rateInput"></div>
+          <button class="chip hidden" id="rateReset" type="button">USE LIVE RATE</button>
+        </div>
+      </div>
+      <div class="rate-help" id="rateHelp">Checking today's rate...</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><label class="lbl" for="areaSel">Target Area</label><select class="sel" id="areaSel"></select></div>
+    <div class="card"><label class="lbl" for="hhSel">Household Size</label><select class="sel" id="hhSel"></select></div>
+  </div>
+
+  <div class="btns">
+    <button class="btn btn-green" id="curBtn" type="button"></button>
+    <button class="btn" id="compBtn" type="button"></button>
+  </div>
+
+  <!-- ── MONTHLY COSTS ───────────────────────────────────── -->
+  <div class="section-title">1. Your Monthly Costs</div>
+  <div class="btns" style="margin-bottom:8px">
+    <button class="btn btn-blue" id="fillAll" type="button">Fill With Suggested Amounts</button>
+    <button class="btn btn-red" id="clearAll" type="button">Clear All To Zero</button>
+  </div>
+  <div class="note">Grey numbers are my suggested estimate. Tap any field to enter your own amount.</div>
+  <div id="cats"></div>
+
+  <div class="totals">
+    <div class="totals-row">
+      <div><div class="tot-lbl" id="totLbl"></div><div class="tot-val" id="totVal"></div></div>
+      <div style="text-align:right" id="usTotWrap"><div class="us-tot-lbl" id="usTotLbl"></div><div class="us-tot-val" id="usTotVal"></div></div>
+    </div>
+    <div id="saveBar"></div>
+    <div id="mix"></div>
+  </div>
+  <div id="annual"></div>
+
+  <div class="reality" id="reality"></div>
+
+  <!-- ── MONEY PLAN ──────────────────────────────────────── -->
+  <div class="section-title">2. Can You Afford It?</div>
+  <p class="section-sub">Add your monthly income and your savings. I will tell you if the math works, how long your money lasts, and if you qualify for residency.</p>
+  <div class="card">
+    <div class="field">
+      <label class="lbl" for="incomeInp">Monthly income you will bring (USD)</label>
+      <div class="input-wrap"><span class="input-sym">$</span><input class="plain-input" id="incomeInp" type="number" inputmode="numeric" placeholder="Pension, Social Security, rental income, remote work"></div>
+    </div>
+    <div class="field">
+      <span class="lbl">Where does that income come from?</span>
+      <div class="seg" id="incomeType" role="group" aria-label="Income type">
+        <button type="button" data-v="pension">Pension / Social Security</button>
+        <button type="button" data-v="passive">Rental / Investments</button>
+        <button type="button" data-v="work">Job / Remote work</button>
+      </div>
+    </div>
+    <div class="field">
+      <label class="lbl" for="savingsInp">Savings you can use (USD)</label>
+      <div class="input-wrap"><span class="input-sym">$</span><input class="plain-input" id="savingsInp" type="number" inputmode="numeric" placeholder="Cash you can live on, not retirement accounts"></div>
+    </div>
+    <div class="field">
+      <label class="lbl" for="depInp">Dependents moving with you</label>
+      <div class="input-row" style="max-width:180px">
+        <button class="step-btn" type="button" data-dep="-1" aria-label="Fewer dependents">&minus;</button>
+        <div class="input-wrap"><input class="plain-input" id="depInp" type="number" inputmode="numeric" min="0" style="padding-left:12px;text-align:center"></div>
+        <button class="step-btn" type="button" data-dep="1" aria-label="More dependents">+</button>
+      </div>
+      <div class="fine">Spouse and kids count. This changes the visa income you need.</div>
+    </div>
+  </div>
+  <div id="planOut"></div>
+
+  <!-- ── GETTING THERE ───────────────────────────────────── -->
+  <div class="section-title">3. Getting There: One-Time Costs</div>
+  <p class="section-sub">Most people budget the monthly life and forget the move itself. These are the costs that hit before your first beach sunset.</p>
+  <div class="seg no-print" id="tripMode" role="group" aria-label="Trip type" style="margin-bottom:12px">
+    <button type="button" data-v="sabbatical">Sabbatical / Test Run</button>
+    <button type="button" data-v="move">Moving For Good</button>
+  </div>
+  <div id="oneTime"></div>
+  <div class="card" id="monthsCard" style="margin-top:8px">
+    <label class="lbl" for="monthsInp">How long is your stay?</label>
+    <div class="range-val" id="monthsVal"></div>
+    <input type="range" min="1" max="12" step="1" id="monthsInp" class="range">
+    <div class="fine">Not sure? I always say start with a 30 day test run before you sell anything.</div>
+  </div>
+  <div class="card" style="margin-top:8px" id="tripOut"></div>
+
+  <!-- ── ACTIONS ─────────────────────────────────────────── -->
+  <div class="btns actions" style="margin-top:20px">
+    <button class="btn btn-green" id="printBtn" type="button">Save As PDF</button>
+    <button class="btn btn-blue" id="shareBtn" type="button">Copy Link To My Budget</button>
+    <button class="btn btn-dim" id="resetBtn" type="button">Start Over</button>
+  </div>
+  <div class="note">Your numbers save on this device automatically. Close the page and come back anytime.</div>
+
+  <!-- ── EMAIL (after value, never a gate) ───────────────── -->
+  <div class="capture" id="capture">
+    <h2>Want this budget in your inbox?</h2>
+    <p>I will email you your numbers plus my free DR Relocation Starter Kit, so you have it when you start planning for real.</p>
+    <div class="capture-row">
+      <input class="text-input" id="capName" type="text" placeholder="First name" autocomplete="given-name" aria-label="First name">
+      <input class="text-input" id="capEmail" type="email" placeholder="you@email.com" autocomplete="email" aria-label="Email address">
+    </div>
+    <button class="submit" id="capBtn" type="button">Send Me My Budget</button>
+    <div class="form-msg" id="capMsg"></div>
+  </div>
+
+  <div class="cta">
+    <h2>Ready to stop guessing?</h2>
+    <p>My free DR Relocation Starter Kit gives you the honest numbers, how residency really works, and what healthcare really looks like. From a nurse who lives it.</p>
+    <a href="https://btb-starter-kit.netlify.app/" target="_blank" rel="noopener" class="cta-btn">Get The Free Starter Kit</a>
+    <a href="https://calendly.com/jarlee123/30-minute-clarity-call" target="_blank" rel="noopener" class="cta-alt">Rather talk it through? Book a clarity call with me</a>
+  </div>
+
+  <div class="footer">Built by Coleen Huie Garcia, RN. 30 years of nursing. Now living the DR dream in Puerto Plata.<br>Estimates based on real experience. Your actual costs may vary. Visa info is general, not legal advice.</div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────────────
+const FALLBACK_RATE = 58.0, STEP_USD = 10, STEP_DRD = 500, STORE_KEY = 'btb-dr-budget-v2';
+const AREAS = {
+  santo_domingo: { label: 'Santo Domingo', mod: 1 },
+  santiago:      { label: 'Santiago', mod: 0.85 },
+  puerto_plata:  { label: 'Puerto Plata / North Coast', mod: 0.8 },
+  punta_cana:    { label: 'Punta Cana / East Coast', mod: 1.1 },
+  las_terrenas:  { label: 'Las Terrenas / Samaná', mod: 1.0 },
+};
+const HH = {
+  single: { label: 'Single', mod: 1, deps: 0 },
+  couple: { label: 'Couple', mod: 1.5, deps: 1 },
+  family: { label: 'Family', mod: 2, deps: 3 },
+};
+// dr / us = monthly USD for a single person in Santo Domingo / a typical US city
+const CATS = [
+  { k: 'housing',        label: 'Housing / Rent',            icon: '⌂', dr: 650, us: 1850, tip: 'A nice 2-bedroom apartment in a safe neighborhood. Gated communities cost more. Never sign a lease you have not seen in person.' },
+  { k: 'utilities',      label: 'Electricity / Water / Gas', icon: '⚡', dr: 120, us: 250, isNew: true, tip: 'This is the one that surprises everyone. Air conditioning drives your light bill. Add drinking water jugs (botellones) and a gas tank for the stove. Ask if the place has an inverter for power cuts.' },
+  { k: 'internet',       label: 'Internet / Phone',          icon: '☎', dr: 45, us: 150, isNew: true, tip: 'Fiber internet is easy to get in most cities. A local Claro or Altice phone plan is cheap. Keep your US number on a low cost plan for bank codes.' },
+  { k: 'transport',      label: 'Transportation',            icon: '✈', dr: 150, us: 700, isNew: true, tip: 'Uber works in the big cities. Motoconchos and guaguas are dirt cheap. If you buy a car, expect higher prices than the US because of import taxes.' },
+  { k: 'healthcare',     label: 'Healthcare / Insurance',    icon: '+', dr: 120, us: 650, tip: 'Private insurance in DR is very affordable. Doctor visits can be $15 to $30 USD out of pocket. As a nurse, I trust the private clinics here.' },
+  { k: 'food',           label: 'Food / Groceries',          icon: '○', dr: 300, us: 800, tip: 'Shop at local colmados and markets for the best prices. Fresh fruit and produce are dirt cheap. Imported US brands cost more than back home.' },
+  { k: 'visa_legal',     label: 'Visa / Legal Fees',         icon: '☆', dr: 50, us: 0, tip: 'Residency renewals spread out monthly. Budget the first application in the one-time costs below.' },
+  { k: 'entertainment',  label: 'Entertainment / Dining Out', icon: '♫', dr: 200, us: 500, tip: 'A full dinner for two at a nice restaurant runs $25 to $40 USD. Local spots are even cheaper.' },
+  { k: 'household_help', label: 'Household Help',            icon: '★', dr: 150, us: 600, tip: 'Household help is common and affordable here. This covers cleaning 2 to 3 times per week. Pay fairly and on time, word travels fast.' },
+  { k: 'pets',           label: 'Pet Expenses',              icon: '❀', dr: 60, us: 150, tip: 'Vet visits are very affordable. Quality pet food is at most supermarkets.' },
+  { k: 'savings',        label: 'Savings / Emergency Fund',  icon: '■', dr: 200, us: 200, tip: 'Always keep 3 to 6 months of expenses saved. Keep it in dollars and only convert what you need each month.' },
+];
+const NO_SCALE = new Set(['visa_legal', 'savings', 'pets']);
+const MIX_COLORS = ['#5BAD6F','#E8A94A','#4A90D9','#C9A0DC','#E8634A','#7FD1C7','#B8B08D','#F2C1A0','#8FA8C9','#D98FA8','#9CC98F'];
+const ONE_TIME = [
+  { k: 'flights',  label: 'Flights and extra bags',            sug: () => 600 * hhPeople(), tip: 'Fly into the airport closest to where you will live. POP for Puerto Plata, STI for Santiago, SDQ for Santo Domingo, PUJ for Punta Cana.' },
+  { k: 'deposit',  label: 'Rent deposit and first month',     sug: () => monthlySug('housing') * (state.mode === 'move' ? 3 : 1), tip: 'Long term rentals usually want 2 months deposit plus the first month. Short term furnished rentals usually want the full stay up front.' },
+  { k: 'setup',    label: 'Setting up (furniture, inverter, phone)', sug: () => state.mode === 'move' ? 1500 : 150, tip: 'Furnished places save you a lot here. If you rent unfurnished, an inverter for power cuts is the first thing I would buy.' },
+  { k: 'residency',label: 'Residency process and lawyer',      sug: () => state.mode === 'move' ? 2000 : 0, onlyMove: true, tip: 'This is a rough number. Fees change, and every case is different. Always use a licensed Dominican lawyer. Never pay a "fixer" at the migration office.' },
+  { k: 'cushion',  label: 'Surprise cushion',                  sug: () => 500, tip: 'Something always comes up. A broken fridge, a doctor visit, a power bill twice what you expected. This is your peace of mind money.' },
+];
+const VISA = { pensionado: 1500, rentista: 2000, perDep: 250 };
+
+// ── State ────────────────────────────────────────────────────────────────────
+const defaults = () => ({ area: 'puerto_plata', hh: 'single', isUSD: true, rate: null, comp: true, values: {}, oneTime: {}, tipOpen: null,
+  income: '', incomeType: 'pension', savings: '', deps: 0, mode: 'sabbatical', months: 3 });
+let state = defaults();
+let liveRate = null;
+
+const load = () => {
+  try {
+    const fromHash = location.hash.startsWith('#b=') ? JSON.parse(decodeURIComponent(atob(location.hash.slice(3)))) : null;
+    const saved = fromHash || JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+    if (saved) state = { ...defaults(), ...saved, tipOpen: null };
+  } catch (e) { /* bad hash or blocked storage: start fresh */ }
+};
+const save = () => {
+  try { const { tipOpen, ...rest } = state; localStorage.setItem(STORE_KEY, JSON.stringify(rest)); } catch (e) {}
+};
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const rate = () => state.rate || liveRate || FALLBACK_RATE;
+const toDisp = u => state.isUSD ? Math.round(u) : Math.round(u * rate());
+const fromDisp = d => state.isUSD ? d : d / rate();
+const sym = () => state.isUSD ? '$' : 'RD$';
+const tag = () => state.isUSD ? 'USD' : 'DRD';
+const fmt = d => sym() + Math.round(d).toLocaleString();
+const fmtUSD = u => '$' + Math.round(u).toLocaleString();
+const money = u => fmt(toDisp(u));
+const hhPeople = () => ({ single: 1, couple: 2, family: 4 })[state.hh];
+const scale = (c, base) => NO_SCALE.has(c.k) ? base : base * HH[state.hh].mod;
+const monthlySug = k => { const c = CATS.find(x => x.k === k); return Math.round(scale(c, c.dr * AREAS[state.area].mod)); };
+const usAmt = c => Math.round(scale(c, c.us));
+const oneTimeVal = o => state.oneTime[o.k] ?? Math.round(o.sug());
+const totalDR = () => CATS.reduce((s, c) => s + (state.values[c.k] || 0), 0);
+const totalUS = () => CATS.reduce((s, c) => s + usAmt(c), 0);
+const num = v => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+
+const toast = msg => { const t = $('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); };
+
+// ── Live exchange rate ───────────────────────────────────────────────────────
+const fetchRate = async () => {
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/USD');
+    const j = await r.json();
+    if (j && j.rates && j.rates.DOP) liveRate = Math.round(j.rates.DOP * 100) / 100;
+  } catch (e) { /* offline or blocked: keep fallback */ }
+  renderRate(); renderCats(); update();
+};
+const renderRate = () => {
+  const inp = $('rateInput');
+  if (document.activeElement !== inp) inp.value = rate();
+  $('rateReset').classList.toggle('hidden', !state.rate);
+  $('rateHelp').innerHTML = state.rate
+    ? 'You set your own rate. Tap USE LIVE RATE to go back to today\'s rate.'
+    : liveRate
+      ? '<span class="rate-status">Live rate loaded today.</span> Banks and exchange houses give a little less. Type your own rate if you have it.'
+      : 'Could not load today\'s rate, so I used ' + FALLBACK_RATE + '. Check Google or your bank and type it in.';
+};
+
+// ── Render: setup ────────────────────────────────────────────────────────────
+const renderSetup = () => {
+  $('areaSel').innerHTML = Object.entries(AREAS).map(([k, a]) => `<option value="${k}"${k === state.area ? ' selected' : ''}>${a.label}</option>`).join('');
+  $('hhSel').innerHTML = Object.entries(HH).map(([k, h]) => `<option value="${k}"${k === state.hh ? ' selected' : ''}>${h.label}</option>`).join('');
+  $('curBtn').textContent = (state.isUSD ? 'Showing USD ($)' : 'Showing DR Pesos (RD$)') + '. Tap to switch';
+  $('compBtn').textContent = state.comp ? 'US Comparison: ON' : 'US Comparison: OFF';
+  $('compBtn').className = 'btn ' + (state.comp ? 'btn-blue' : 'btn-dim');
+  $('depInp').value = state.deps;
+  $('incomeInp').value = state.income;
+  $('savingsInp').value = state.savings;
+  $('monthsInp').value = state.months;
+  document.querySelectorAll('#incomeType button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === state.incomeType));
+  document.querySelectorAll('#tripMode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === state.mode));
+};
+
+// ── Render: category rows (rebuilt only when area/household/currency change) ─
+const renderCats = () => {
+  const t = tag(), sy = sym();
+  $('cats').innerHTML = CATS.map((c, i) => {
+    const v = state.values[c.k] || 0, has = v > 0, open = state.tipOpen === c.k;
+    return `<div class="cat" data-k="${c.k}">
+      <div class="cat-head">
+        <div class="cat-row">
+          <div style="display:flex;align-items:center;gap:10px"><span class="cat-icon" aria-hidden="true">${c.icon}</span><span class="cat-label">${c.label}${c.isNew ? '<span class="cat-new">NEW</span>' : ''}</span></div>
+          <div class="cat-actions">
+            ${has ? '' : `<button class="btn-link btn-link-blue" data-act="sug" type="button">USE SUGGESTED</button>`}
+            <button class="btn-link btn-link-dim" data-act="tip" type="button" aria-expanded="${open}">${open ? 'CLOSE' : 'TIP'}</button>
+          </div>
+        </div>
+        <div class="cat-inputs">
+          <div class="input-group">
+            <label class="input-lbl" for="inp_${c.k}">DR MONTHLY (${t})</label>
+            <div class="input-row">
+              <button class="step-btn" data-act="dec" type="button" aria-label="Less">&minus;</button>
+              <div class="input-wrap"><span class="input-sym">${sy}</span><input type="number" inputmode="numeric" class="num-input${has ? ' filled' : ''}" id="inp_${c.k}" value="${has ? toDisp(v) : ''}" placeholder="${toDisp(monthlySug(c.k))}"></div>
+              <button class="step-btn" data-act="inc" type="button" aria-label="More">+</button>
+            </div>
+          </div>
+          ${state.comp ? `<div class="us-col"><span class="us-lbl">US (${t})</span><div class="us-val">${money(usAmt(c))}</div></div>` : ''}
+        </div>
+      </div>
+      ${open ? `<div class="tip-box"><span class="tip-label">Coleen's Tip: </span>${c.tip}<br><span class="tip-sug">Suggested amount: ${money(monthlySug(c.k))}/month</span></div>` : ''}
+    </div>`;
+  }).join('');
+};
+
+// ── Verdict: judged per person so a family is not called "luxury" by default ─
+const verdict = t => {
+  const p = t / HH[state.hh].mod;
+  if (t <= 0) return { level: 'Enter Your Budget', color: 'rgba(232,228,218,0.4)', bar: 0, msg: 'Start filling in your expected costs above. Use my suggested amounts or enter your own. Tap the + and - buttons to adjust quickly.' };
+  if (p < 1000) return { level: 'Tight Budget', color: '#E8634A', bar: 20, msg: 'This is lean. You will need to be very careful with spending. Best for short sabbaticals, or if your housing is already covered.' };
+  if (p < 1500) return { level: 'Doable', color: '#E8A94A', bar: 40, msg: 'You can make this work. You will cover your basics and live simply. Not a lot of extras, but enough to enjoy island life.' };
+  if (p < 2500) return { level: 'Comfortable', color: '#5BAD6F', bar: 70, msg: 'This is the sweet spot. You will live well, eat well, go out, and enjoy the DR without stressing about money. Most expats land right here.' };
+  return { level: 'Living In Luxury', color: '#4A90D9', bar: 100, msg: 'You are living like royalty in the DR. Beachfront options, top restaurants, household help, and plenty of cushion. The full island dream.' };
+};
+
+// ── Update: everything computed (no input rebuilds, so typing never jumps) ───
+const update = () => {
+  const t = tag(), tot = totalDR(), us = totalUS(), sav = us - tot, pct = us > 0 ? Math.round(sav / us * 100) : 0;
+
+  $('totLbl').textContent = `YOUR DR MONTHLY TOTAL (${t})`;
+  $('totVal').textContent = money(tot);
+  $('usTotWrap').classList.toggle('hidden', !state.comp);
+  $('usTotLbl').textContent = `US EQUIVALENT (${t})`;
+  $('usTotVal').textContent = money(us);
+  const showSave = state.comp && sav > 0 && tot > 0;
+  $('saveBar').innerHTML = showSave ? `<div class="save-bar"><div><div class="save-lbl">YOU SAVE EVERY MONTH</div><div class="save-val">${money(sav)}</div></div><div class="save-pct">${pct}% less</div></div>` : '';
+  $('annual').innerHTML = showSave ? `<div class="annual"><div class="annual-lbl">ANNUAL SAVINGS (${t})</div><div class="annual-val">${money(sav * 12)}</div><div class="annual-sub">That is ${money(sav * 12)} back in your pocket every single year.</div></div>` : '';
+
+  // Where the money goes
+  const parts = CATS.map((c, i) => ({ c, v: state.values[c.k] || 0, col: MIX_COLORS[i] })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
+  $('mix').innerHTML = tot > 0 ? `<div class="mix" aria-hidden="true">${parts.map(x => `<span style="width:${x.v / tot * 100}%;background:${x.col}"></span>`).join('')}</div>
+    <div class="mix-legend">${parts.slice(0, 5).map(x => `<span><i style="background:${x.col}"></i>${x.c.label.split(' /')[0]} ${Math.round(x.v / tot * 100)}%</span>`).join('')}</div>` : '';
+
+  const v = verdict(tot);
+  $('reality').style.border = `1px solid ${v.color}33`;
+  $('reality').innerHTML = `<div class="reality-lbl" style="color:${v.color}">REALITY CHECK</div><div class="reality-level" style="color:${v.color}">${v.level}</div><div class="bar-bg"><div class="bar-fill" style="background:${v.color};width:${v.bar}%"></div></div><p class="reality-msg">${v.msg}</p>`;
+
+  renderPlan(tot);
+  renderTrip(tot);
+  $('printMeta').textContent = `${AREAS[state.area].label} · ${HH[state.hh].label} · Rate RD$${rate()} per USD · ${new Date().toLocaleDateString()}`;
+  save();
+};
+
+// ── Money plan: surplus, runway, visa check ──────────────────────────────────
+const renderPlan = tot => {
+  const inc = num(state.income), savings = num(state.savings), out = [];
+  if (tot <= 0) { $('planOut').innerHTML = `<div class="result info"><div class="result-title">Fill in your monthly costs first</div><div class="result-msg">Once section 1 has numbers, this part does the math for you.</div></div>`; return; }
+
+  if (inc > 0) {
+    const gap = inc - tot;
+    out.push(gap >= 0
+      ? `<div class="result ok"><div class="result-title">You have ${money(gap)} left over every month</div><div class="result-msg">Your income covers your DR life with room to spare. That extra can go straight into savings or a trip home to see the grandkids.</div></div>`
+      : `<div class="result bad"><div class="result-title">You are ${money(-gap)} short every month</div><div class="result-msg">Your costs are higher than your income. That is fine for a sabbatical you pay for with savings. For a full move, trim the big categories or pick a cheaper area. Puerto Plata and Santiago cost less than Punta Cana.</div></div>`);
+  }
+
+  if (savings > 0) {
+    const burn = inc > 0 ? tot - inc : tot;
+    if (burn <= 0) out.push(`<div class="result ok"><div class="result-title">Your savings never get touched</div><div class="result-msg">Your income pays the bills, so your ${fmtUSD(savings)} stays your safety net. That is how I like it.</div></div>`);
+    else {
+      const m = Math.floor(savings / burn);
+      const cls = m >= 12 ? 'ok' : m >= 4 ? 'warn' : 'bad';
+      out.push(`<div class="result ${cls}"><div class="result-title">Your savings last about ${m} month${m === 1 ? '' : 's'}</div><div class="result-msg">${m >= 12 ? 'That is a strong cushion. You have time to settle in without panic.' : m >= 4 ? 'Enough for a real sabbatical. For a full move, I want you to have at least 6 months of breathing room.' : 'That is tight. Plan a shorter test run first, or keep a little income coming in.'}</div></div>`);
+    }
+  }
+
+  if (inc > 0) {
+    const d = Math.max(0, Math.round(num(state.deps)));
+    const pen = VISA.pensionado + d * VISA.perDep, ren = VISA.rentista + d * VISA.perDep;
+    let title, msg, cls;
+    if (state.incomeType === 'work') {
+      cls = 'warn'; title = 'Job income does not count for these visas';
+      msg = `The Pensionado and Rentista visas need pension or passive income. Paychecks and remote work salary do not qualify. Ask a DR lawyer about your other options.`;
+    } else if (state.incomeType === 'pension') {
+      cls = inc >= pen ? 'ok' : 'warn';
+      title = inc >= pen ? 'You meet the Pensionado income line' : `You need ${fmtUSD(pen - inc)} more per month for Pensionado`;
+      msg = `The Pensionado visa asks for ${fmtUSD(pen)} a month in pension income${d ? ` (${fmtUSD(VISA.pensionado)} plus ${fmtUSD(VISA.perDep)} for each of your ${d} dependent${d === 1 ? '' : 's'})` : ''}. Social Security counts.`;
+    } else {
+      cls = inc >= ren ? 'ok' : 'warn';
+      title = inc >= ren ? 'You meet the Rentista income line' : `You need ${fmtUSD(ren - inc)} more per month for Rentista`;
+      msg = `The Rentista visa asks for ${fmtUSD(ren)} a month in passive income, like rent or investments${d ? ` (${fmtUSD(VISA.rentista)} plus ${fmtUSD(VISA.perDep)} for each of your ${d} dependent${d === 1 ? '' : 's'})` : ''}.`;
+    }
+    out.push(`<div class="result ${cls}"><div class="result-title">Residency check: ${title}</div><div class="result-msg">${msg}</div><div class="fine">Amounts are the 2026 Law 171-07 thresholds. Rules and paperwork change, so confirm with a licensed Dominican lawyer before you apply.</div></div>`);
+  }
+
+  $('planOut').innerHTML = out.join('') || `<div class="result info"><div class="result-title">Add your income or savings above</div><div class="result-msg">Even a rough number helps. You can change it anytime.</div></div>`;
+};
+
+// ── One-time costs + total trip budget ───────────────────────────────────────
+const renderOneTime = () => {
+  const sy = sym(), t = tag();
+  $('oneTime').innerHTML = ONE_TIME.filter(o => !(o.onlyMove && state.mode !== 'move')).map(o => {
+    const custom = state.oneTime[o.k] != null, open = state.tipOpen === 'ot_' + o.k;
+    return `<div class="cat" data-ot="${o.k}">
+      <div class="cat-head">
+        <div class="cat-row"><span class="cat-label">${o.label}</span>
+          <div class="cat-actions">${custom ? '<button class="btn-link btn-link-blue" data-act="otreset" type="button">USE SUGGESTED</button>' : ''}<button class="btn-link btn-link-dim" data-act="ottip" type="button" aria-expanded="${open}">${open ? 'CLOSE' : 'TIP'}</button></div>
+        </div>
+        <label class="input-lbl" for="ot_${o.k}">ONE TIME (${t})</label>
+        <div class="input-wrap"><span class="input-sym">${sy}</span><input type="number" inputmode="numeric" class="num-input filled" id="ot_${o.k}" value="${toDisp(oneTimeVal(o))}"></div>
+      </div>
+      ${open ? `<div class="tip-box"><span class="tip-label">Coleen's Tip: </span>${o.tip}</div>` : ''}
+    </div>`;
+  }).join('');
+  $('monthsCard').classList.toggle('hidden', state.mode === 'move');
+};
+
+const renderTrip = tot => {
+  const oneTot = ONE_TIME.filter(o => !(o.onlyMove && state.mode !== 'move')).reduce((s, o) => s + oneTimeVal(o), 0);
+  $('monthsVal').textContent = state.months + (state.months === 1 ? ' month' : ' months');
+  if (state.mode === 'sabbatical') {
+    const stay = tot * state.months, all = stay + oneTot;
+    $('tripOut').innerHTML = `
+      <div class="big-line"><span>Living costs for ${state.months} month${state.months === 1 ? '' : 's'}</span><b>${money(stay)}</b></div>
+      <div class="big-line"><span>One-time costs</span><b>${money(oneTot)}</b></div>
+      <div class="big-line" style="color:var(--green)"><span><strong>Your sabbatical budget</strong></span><b style="font-size:24px">${money(all)}</b></div>
+      ${num(state.savings) > 0 ? `<div class="fine">${num(state.savings) >= all ? 'Your savings cover this whole trip. Book the flight.' : `You are ${fmtUSD(all - num(state.savings))} short in savings. Try fewer months, or save for a little longer first.`}</div>` : ''}`;
+  } else {
+    const six = tot * 6;
+    $('tripOut').innerHTML = `
+      <div class="big-line"><span>One-time move costs</span><b>${money(oneTot)}</b></div>
+      <div class="big-line"><span>6 month safety cushion</span><b>${money(six)}</b></div>
+      <div class="big-line" style="color:var(--green)"><span><strong>Cash to have before you move</strong></span><b style="font-size:24px">${money(oneTot + six)}</b></div>
+      <div class="fine">I tell everyone the same thing. Do not move without 6 months of living costs saved. It turns every surprise into a small problem instead of a crisis.</div>`;
+  }
+};
+
+// ── Events (delegated so re-renders never lose listeners) ────────────────────
+const rerender = () => { renderSetup(); renderCats(); renderOneTime(); update(); };
+
+$('areaSel').onchange = e => { state.area = e.target.value; renderCats(); renderOneTime(); update(); };
+$('hhSel').onchange = e => { state.hh = e.target.value; state.deps = HH[state.hh].deps; renderSetup(); renderCats(); renderOneTime(); update(); };
+$('curBtn').onclick = () => { state.isUSD = !state.isUSD; rerender(); };
+$('compBtn').onclick = () => { state.comp = !state.comp; renderSetup(); renderCats(); update(); };
+$('rateInput').onchange = e => { const n = num(e.target.value); state.rate = n > 0 ? n : null; renderRate(); renderCats(); renderOneTime(); update(); };
+$('rateReset').onclick = () => { state.rate = null; renderRate(); renderCats(); renderOneTime(); update(); };
+$('fillAll').onclick = () => { CATS.forEach(c => state.values[c.k] = monthlySug(c.k)); renderCats(); update(); };
+$('clearAll').onclick = () => { state.values = {}; renderCats(); update(); };
+
+$('cats').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-act]'); if (!btn) return;
+  const k = btn.closest('.cat').dataset.k, act = btn.dataset.act;
+  if (act === 'tip') state.tipOpen = state.tipOpen === k ? null : k;
+  if (act === 'sug') state.values[k] = monthlySug(k);
+  if (act === 'inc' || act === 'dec') {
+    const step = state.isUSD ? STEP_USD : STEP_DRD, cur = toDisp(state.values[k] || 0);
+    state.values[k] = Math.max(0, Math.round(fromDisp(Math.max(0, cur + (act === 'inc' ? step : -step)))));
+  }
+  renderCats(); update();
+});
+$('cats').addEventListener('input', e => {
+  if (!e.target.matches('.num-input')) return;
+  const k = e.target.closest('.cat').dataset.k;
+  state.values[k] = Math.max(0, Math.round(fromDisp(num(e.target.value))));
+  e.target.classList.toggle('filled', state.values[k] > 0);
+  update();
+});
+$('cats').addEventListener('change', e => { if (e.target.matches('.num-input')) renderCats(); });
+
+$('oneTime').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-act]'); if (!btn) return;
+  const k = btn.closest('.cat').dataset.ot;
+  if (btn.dataset.act === 'ottip') state.tipOpen = state.tipOpen === 'ot_' + k ? null : 'ot_' + k;
+  if (btn.dataset.act === 'otreset') delete state.oneTime[k];
+  renderOneTime(); update();
+});
+$('oneTime').addEventListener('input', e => {
+  const k = e.target.closest('.cat').dataset.ot;
+  state.oneTime[k] = Math.max(0, Math.round(fromDisp(num(e.target.value))));
+  update();
+});
+$('oneTime').addEventListener('change', () => renderOneTime());
+
+$('incomeInp').oninput = e => { state.income = e.target.value; update(); };
+$('savingsInp').oninput = e => { state.savings = e.target.value; update(); };
+$('depInp').oninput = e => { state.deps = Math.max(0, Math.round(num(e.target.value))); update(); };
+document.querySelectorAll('[data-dep]').forEach(b => b.onclick = () => { state.deps = Math.max(0, state.deps + Number(b.dataset.dep)); $('depInp').value = state.deps; update(); });
+$('incomeType').onclick = e => { const b = e.target.closest('button'); if (!b) return; state.incomeType = b.dataset.v; renderSetup(); update(); };
+$('tripMode').onclick = e => { const b = e.target.closest('button'); if (!b) return; state.mode = b.dataset.v; renderSetup(); renderOneTime(); update(); };
+$('monthsInp').oninput = e => { state.months = Number(e.target.value); update(); };
+
+$('printBtn').onclick = () => window.print();
+$('shareBtn').onclick = async () => {
+  const { tipOpen, ...rest } = state;
+  const url = location.href.split('#')[0] + '#b=' + btoa(encodeURIComponent(JSON.stringify(rest)));
+  try { await navigator.clipboard.writeText(url); toast('Link copied. Send it to your spouse or bestie.'); }
+  catch (e) { prompt('Copy this link:', url); }
+};
+$('resetBtn').onclick = () => {
+  if (!confirm('Clear all your numbers and start over?')) return;
+  state = defaults();
+  try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+  history.replaceState(null, '', location.pathname);
+  rerender(); renderRate();
+};
+
+// ── Email capture: optional, after the value ─────────────────────────────────
+$('capBtn').onclick = async () => {
+  const name = $('capName').value.trim(), email = $('capEmail').value.trim(), msg = $('capMsg'), btn = $('capBtn');
+  msg.style.color = 'var(--red)'; msg.textContent = '';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please enter a valid email address.'; return; }
+  btn.disabled = true; btn.textContent = 'Sending...';
+  const summary = `${AREAS[state.area].label}, ${HH[state.hh].label}, ${fmtUSD(totalDR())}/month`;
+  try {
+    await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ 'form-name': 'email-capture', name, email, budget: summary }).toString() });
+  } catch (e) { /* Netlify form is the backup record; keep going */ }
+  // MailerLite Budget Tracker form: adds to the group and starts the welcome sequence
+  try {
+    const px = new Image();
+    px.src = 'https://assets.mailerlite.com/jsonp/2173262/forms/183836887176184985/subscribe?' +
+      new URLSearchParams({ 'fields[email]': email, 'fields[name]': name, 'ml-submit': '1', 'anticsrf': 'true' }).toString();
+  } catch (e) {}
+  $('capture').innerHTML = `<h2 style="color:var(--green)">You're in${name ? ', ' + esc(name) : ''}!</h2><p style="margin:0">Check your inbox. Your Starter Kit is on its way. Your budget is saved on this device too, so you can keep tweaking.</p>`;
+};
+
+// ── Start ────────────────────────────────────────────────────────────────────
+load();
+rerender();
+renderRate();
+fetchRate();
+</script>
+</body>
+</html>
